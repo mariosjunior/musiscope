@@ -40,9 +40,9 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
       );
 
       const params = {
-        red: 100 / 255, // Ajuste para o valor inicial da cor vermelha
-        green: 255 / 255, // Ajuste para o valor inicial da cor verde
-        blue: 218 / 255, // Ajuste para o valor inicial da cor azul
+        red: 100 / 255,
+        green: 255 / 255,
+        blue: 218 / 255,
         threshold: 0.5,
         strength: 0.5,
         radius: 0.8,
@@ -85,7 +85,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
 
       const geo = new THREE.IcosahedronGeometry(4, 30);
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.y = 2; // Ajuste a posição Y para mover o objeto para cima
+      mesh.position.y = 2;
       scene.add(mesh);
       mesh.material.wireframe = true;
 
@@ -100,40 +100,40 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
       const gui = new GUI();
 
       const colorsFolder = gui.addFolder("Colors");
-      colorsFolder.add(params, "red", 0, 1).onChange(function (value) {
+      colorsFolder.add(params, "red", 0, 1).onChange((value) => {
         uniforms.u_red.value = Number(value);
       });
-      colorsFolder.add(params, "green", 0, 1).onChange(function (value) {
+      colorsFolder.add(params, "green", 0, 1).onChange((value) => {
         uniforms.u_green.value = Number(value);
       });
-      colorsFolder.add(params, "blue", 0, 1).onChange(function (value) {
+      colorsFolder.add(params, "blue", 0, 1).onChange((value) => {
         uniforms.u_blue.value = Number(value);
       });
 
       const bloomFolder = gui.addFolder("Bloom");
-      bloomFolder.add(params, "threshold", 0, 1).onChange(function (value) {
+      bloomFolder.add(params, "threshold", 0, 1).onChange((value) => {
         bloomPass.threshold = Number(value);
       });
-      bloomFolder.add(params, "strength", 0, 3).onChange(function (value) {
+      bloomFolder.add(params, "strength", 0, 3).onChange((value) => {
         bloomPass.strength = Number(value);
       });
-      bloomFolder.add(params, "radius", 0, 1).onChange(function (value) {
+      bloomFolder.add(params, "radius", 0, 1).onChange((value) => {
         bloomPass.radius = Number(value);
       });
 
       let mouseX = 0;
       let mouseY = 0;
 
-      document.addEventListener("mousemove", function (e) {
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
+      document.addEventListener("mousemove", (e) => {
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
         mouseX = (e.clientX - windowHalfX) / 100;
         mouseY = (e.clientY - windowHalfY) / 100;
       });
 
       const clock = new THREE.Clock();
 
-      function animate() {
+      const animate = () => {
         camera.position.x += (mouseX - camera.position.x) * 0.05;
         camera.position.y += (-mouseY - camera.position.y) * 0.5;
         camera.lookAt(scene.position);
@@ -141,10 +141,10 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
         uniforms.u_frequency.value = analyser.getAverageFrequency();
         bloomComposer.render();
         requestAnimationFrame(animate);
-      }
+      };
       animate();
 
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
