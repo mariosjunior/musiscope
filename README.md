@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![MusiScope](https://github.com/mariosjunior/musiscope/blob/master/musiscope.png?raw=true)
 
-## Getting Started
+# MusiScope
 
-First, run the development server:
+O MusiScope é um aplicativo web que permite aos usuários visualizar os padrões de som de um arquivo de áudio em tempo real. Com o MusiScope, você pode:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Visualizar os padrões de som em uma visualização gráfica interativa
+- Ajustar as configurações de visualização, como cor e intensidade
+
+## Funcionalidades
+
+- Visualização gráfica interativa dos padrões de som
+- Ajuste das configurações de visualização (cor, intensidade, etc.)
+- Layout responsivo para dispositivos móveis
+
+## Tecnologias utilizadas
+
+- React
+- TypeScript
+- Three.js
+- Tailwind CSS
+- NextJS
+
+## Como executar o projeto localmente
+
+### Pré-requisitos
+
+- Node.js (versão 12 ou superior)
+- NPM (geralmente vem com a instalação do Node.js)
+
+### Passos
+
+1. Clone este repositório para o seu computador:
+
+```sh
+git clone https://github.com/mariosjunior/musiscope.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navegue até o diretório do projeto:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+    cd musiscope
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Instale as dependências do projeto:
 
-## Learn More
+```sh
+    npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Inicie o servidor de desenvolvimento
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+    npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Licença
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
