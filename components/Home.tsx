@@ -25,7 +25,6 @@ const Home: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const files = await response.json();
-        console.log("Fetched audio files:", files);
         setAudioFiles(files);
       } catch (error) {
         console.error("Failed to fetch audio files:", error);

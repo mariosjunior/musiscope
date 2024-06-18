@@ -12,7 +12,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         }
 
         const audioFiles = files.map((file) => `/audio/${file}`);
-        console.log('Audio files:', audioFiles);
         res.status(200).json(audioFiles);
     });
 }
