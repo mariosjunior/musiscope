@@ -1,6 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlay,
+  faPause,
+  faStop,
+  faVolumeUp,
+} from "@fortawesome/free-solid-svg-icons";
 import Visualizer from "./Visualizer";
 
 const Home: React.FC = () => {
@@ -28,13 +35,23 @@ const Home: React.FC = () => {
     fetchAudioFiles();
   }, []);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.1; // Define o volume inicial para 20%
+    }
+  }, [audioUrl]);
+
+  const handleButtonClick = (url: string) => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.src = "";
     }
-    const url = event.target.value;
     setAudioUrl(url);
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    }, 0);
   };
 
   const handlePlay = () => {
@@ -81,58 +98,8 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <select
-        onChange={handleInputChange}
-        className="p-2 mb-4 text-black rounded"
-      >
-        <option value="">Select an audio file</option>
-        {audioFiles.map((file, index) => (
-          <option key={index} value={file}>
-            {file.split("/").pop()}
-          </option>
-        ))}
-      </select>
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handlePlay}
-          className="px-4 py-2 mx-2 text-black bg-white rounded"
-        >
-          Play
-        </button>
-        <button
-          onClick={handlePause}
-          className="px-4 py-2 mx-2 text-black bg-white rounded"
-        >
-          Pause
-        </button>
-        <button
-          onClick={handleStop}
-          className="px-4 py-2 mx-2 text-black bg-white rounded"
-        >
-          Stop
-        </button>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          onChange={handleVolumeChange}
-          className="mx-2"
-        />
-      </div>
-      <div className="flex justify-center mt-4 w-full px-4">
-        <input
-          type="range"
-          min="0"
-          max={duration}
-          step="0.1"
-          value={currentTime}
-          onChange={handleProgressChange}
-          className="w-full"
-        />
-      </div>
-      <div className="w-full h-96">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white relative">
+      <div className="w-full h-full">
         {audioUrl && (
           <>
             <audio
@@ -140,10 +107,59 @@ const Home: React.FC = () => {
               src={audioUrl}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
+              autoPlay
             />
             <Visualizer audioElement={audioRef.current} />
           </>
         )}
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 bg-white bg-opacity-10 backdrop-blur-lg p-4 flex flex-col items-center space-y-4">
+        <div className="flex justify-center items-center flex-wrap space-x-4 mb-4">
+          {audioFiles.map((file, index) => (
+            <button
+              key={index}
+              onClick={() => handleButtonClick(file)}
+              className="bg-transparent border-2 border-white text-white py-2 px-4 rounded-full hover:shadow-lg hover:shadow-[#64ffda] transition-shadow"
+            >
+              {file.split("/").pop()?.replace(".mp3", "")}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center justify-center space-x-4 w-full max-w-3xl">
+          <button onClick={handlePlay} className="text-white">
+            <FontAwesomeIcon icon={faPlay} size="2x" />
+          </button>
+          <button onClick={handlePause} className="text-white">
+            <FontAwesomeIcon icon={faPause} size="2x" />
+          </button>
+          <button onClick={handleStop} className="text-white">
+            <FontAwesomeIcon icon={faStop} size="2x" />
+          </button>
+
+          <div className="flex items-center w-full mx-4">
+            <input
+              type="range"
+              min="0"
+              max={duration}
+              step="0.1"
+              value={currentTime}
+              onChange={handleProgressChange}
+              className="w-full"
+            />
+          </div>
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faVolumeUp} className="text-white mr-2" />
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={audioRef.current ? audioRef.current.volume : 0.1}
+              onChange={handleVolumeChange}
+              className="mx-2"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

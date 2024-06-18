@@ -39,9 +39,9 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
     );
 
     const params = {
-      red: 1.0,
-      green: 1.0,
-      blue: 1.0,
+      red: 100 / 255, // Ajuste para o valor inicial da cor vermelha
+      green: 255 / 255, // Ajuste para o valor inicial da cor verde
+      blue: 218 / 255, // Ajuste para o valor inicial da cor azul
       threshold: 0.5,
       strength: 0.5,
       radius: 0.8,
@@ -65,15 +65,15 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
     const outputPass = new OutputPass();
     bloomComposer.addPass(outputPass);
 
-    camera.position.set(0, -2, 14);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(0, -2, 20);
+    camera.lookAt(10, 0, 0);
 
     const uniforms = {
       u_time: { type: "f", value: 0.0 },
       u_frequency: { type: "f", value: 0.0 },
-      u_red: { type: "f", value: 1.0 },
-      u_green: { type: "f", value: 1.0 },
-      u_blue: { type: "f", value: 1.0 },
+      u_red: { type: "f", value: params.red },
+      u_green: { type: "f", value: params.green },
+      u_blue: { type: "f", value: params.blue },
     };
 
     const mat = new THREE.ShaderMaterial({
@@ -84,6 +84,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ audioElement }) => {
 
     const geo = new THREE.IcosahedronGeometry(4, 30);
     const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.y = 2; // Ajuste a posição Y para mover o objeto para cima
     scene.add(mesh);
     mesh.material.wireframe = true;
 
