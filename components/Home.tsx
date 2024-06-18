@@ -6,6 +6,8 @@ import Visualizer from "./Visualizer";
 const Home: React.FC = () => {
   const [audioUrl, setAudioUrl] = useState<string>("");
   const [audioFiles, setAudioFiles] = useState<string[]>([]);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -60,8 +62,26 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleProgressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = parseFloat(event.target.value);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
       <select
         onChange={handleInputChange}
         className="p-2 mb-4 text-black rounded"
@@ -101,10 +121,26 @@ const Home: React.FC = () => {
           className="mx-2"
         />
       </div>
+      <div className="flex justify-center mt-4 w-full px-4">
+        <input
+          type="range"
+          min="0"
+          max={duration}
+          step="0.1"
+          value={currentTime}
+          onChange={handleProgressChange}
+          className="w-full"
+        />
+      </div>
       <div className="w-full h-96">
         {audioUrl && (
           <>
-            <audio ref={audioRef} src={audioUrl} />
+            <audio
+              ref={audioRef}
+              src={audioUrl}
+              onTimeUpdate={handleTimeUpdate}
+              onLoadedMetadata={handleLoadedMetadata}
+            />
             <Visualizer audioElement={audioRef.current} />
           </>
         )}
