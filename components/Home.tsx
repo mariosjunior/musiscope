@@ -37,7 +37,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.1; // Define o volume inicial para 20%
+      audioRef.current.volume = 0.1;
     }
   }, [audioUrl]);
 
@@ -114,12 +114,12 @@ const Home: React.FC = () => {
         )}
       </div>
       <div className="fixed bottom-0 left-0 right-0 bg-white bg-opacity-10 backdrop-blur-lg p-4 flex flex-col items-center space-y-4">
-        <div className="flex justify-center items-center flex-wrap space-x-4 mb-4">
+        <div className="flex justify-center items-center flex-wrap mb-4">
           {audioFiles.map((file, index) => (
             <button
               key={index}
               onClick={() => handleButtonClick(file)}
-              className="bg-transparent border-2 border-white text-white py-2 px-4 rounded-full hover:shadow-lg hover:shadow-[#64ffda] transition-shadow"
+              className="bg-transparent border-2 border-white text-white py-2 px-4 m-2 rounded-full hover:shadow-lg hover:shadow-[#64ffda] transition-shadow"
             >
               {file.split("/").pop()?.replace(".mp3", "")}
             </button>
